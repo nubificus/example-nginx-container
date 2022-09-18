@@ -1,0 +1,8 @@
+FROM scratch
+
+ARG ARCH
+
+COPY nginx_${ARCH}.hvt /unikernel/nginx.hvt
+
+COPY data /
+

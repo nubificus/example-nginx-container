@@ -1,0 +1,9 @@
+FROM nginx:1.12
+
+#RUN mkdir -p /data
+
+COPY data /data
+
+COPY data/conf /etc/nginx
+
+ENTRYPOINT ["nginx"]

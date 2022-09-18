@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FaaS UI | Classification</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <style>
+        #image_drop_area {
+            height: 300px;
+            background-image: url("https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            box-sizing: border-box;
+            cursor: pointer;
+            margin-bottom: 3%;
+        }
+
+        #logo {
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+        <div class="navbar-start">
+            <div class="navbar-brand is-hidden-touch">
+                <h1 id="logo" class="navbar-item is-size-3">&nbsp;FaaS UI</h1>
+            </div>
+            <div class="navbar-item is-hidden-desktop">
+            <div class="navbar-item is-hidden-desktop">
+                <img src="serrano-logo.png">
+	    </div>    
+	    <!-- <h1 class="navbar-item is-hidden-desktop is-size-3">&nbsp;DUAC 2022</h1> -->
+	    </div>
+        </div>
+
+        <div class="navbar-end">
+            <!-- <div class="navbar-item is-hidden-touch">
+                <img src="https://i.ibb.co/cghqDK5/openinfra-nbfc.png" height="28">
+	    </div>-->
+	    <!-- <h1 class="navbar-item is-size-3 is-hidden-touch">&nbsp;DUAC 2022</h1> -->
+            <div class="navbar-item is-hidden-touch">
+                <img src="serrano-logo.png">
+	    </div>
+        </div>
+
+    </nav>
+    <div class="container-fluid">
+        <div class="tabs is-centered is-boxed">
+             <ul>
+                <li class="is-active" id="info-label">
+		<h2 class="title is-size-5">NGINX, __MODE__, __ARCH__</h2>
+        	<p class="subtitle">&nbsp;</p>
+		</li>
+	     </ul>
+    	</div>
+    </div>
+    <div class="container-fluid">
+        <div class="tabs is-centered is-boxed">
+            <ul>
+                <li class="is-active" id="img-tab-label">
+                    <a>
+                        <span class="icon is-small"><i class="fas fa-image" aria-hidden="true"></i></span>
+                        <span>Image Classification</span>
+                    </a>
+                </li>
+                <li id="text-tab-label">
+                    <a>
+                        <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
+                        <span>Text Parsing</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container" id="img-tab">
+        <p class="subtitle">&nbsp;</p>
+        <h1 class="title is-size-4">Image Classification</h1>
+
+        <form class="box" id="form">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Endpoint</label>
+                        <div class="control">
+                            <!-- Alternative endpoint https://classify.nbfc.io/function/fclassify -->
+			    <!-- value="https://classify.nbfc.io/function/unikraft-classify-cached" -->
+                            <input autocomplete="on" class="input" id="img-endpoint" required type="text"
+                                value="https://inference.nbfc.io/function/classify-image"
+                                placeholder="FaaS endpoint URL">
+                        </div>
+                    </div>
+
+                    <!-- <div class="field">
+                        <label class="label">Password</label>
+                        <div class="control">
+                            <input class="input" type="password" placeholder="********">
+                        </div>
+                    </div> -->
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Image</label>
+                        <div id="image_drop_area"></div>
+                        <div class="file is-normal has-name is-fullwidth">
+                            <label class="file-label">
+                                <input id="photo-field" class="file-input" required="true" type="file" name="image"
+                                    accept=".jpg, .jpeg, .png">
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">
+                                        Image File
+                                    </span>
+                                </span>
+                                <span class="file-name">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </span>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="has-text-centered">
+                <button type="submit" id="submit-photo" class="button is-dark">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="container" id="text-tab" style="display: none;">
+        <p class="subtitle">&nbsp;</p>
+        <h1 class="title is-size-4">Text Parsing</h1>
+
+        <form class="box" id="form">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Endpoint</label>
+                        <div class="control">
+                            <!-- Alternative endpoint https://classify.nbfc.io/function/fclassify -->
+                            <input autocomplete="on" class="input" id="txt-endpoint" required type="text"
+                                value="https://inference.nbfc.io/function/savgol" placeholder="FaaS endpoint URL">
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Text Input</label>
+                        <textarea id="text-content" class="textarea" rows="14"
+                            placeholder="e.g. Hello world"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="has-text-centered">
+                <button type="submit" id="submit-text" class="button is-info">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        <p class="subtitle">&nbsp;</p>
+        <h1 class="title is-size-4">Result</h1>
+        <div class="box">
+            <span class="subtitle is-size-4" id="result">
+                &nbsp;
+            </span>
+        </div>
+    </div>
+
+    <script>
+        function debug(obj) {
+            if (DEBUG) {
+                console.log(obj);
+            }
+        }
+
+        function isPhotoSet() {
+            return typeof PhotoFile != "undefined"
+        }
+
+        function isValidImgFile(file) {
+            return (file.name.includes(".jpg") || file.name.includes(".jpeg") || file.name.includes(".png"))
+        }
+
+        function isValidHttpUrl(string) {
+            let url;
+
+            try {
+                url = new URL(string);
+            } catch (_) {
+                return false;
+            }
+
+            return url.protocol === "http:" || url.protocol === "https:";
+        }
+
+        function stripResult(result) {
+            debug('Before stripping:')
+            debug(result);
+            result = result.split(/\r?\n/)
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].includes("classification tags:")) {
+                    return result[i]
+                }
+            }
+            debug(result)
+            return "";
+        }
+
+        function parseUrl() {
+            let searchParams = new URLSearchParams(window.location.search);
+            if (searchParams.has('v')) {
+                let v = searchParams.get('v')
+                if (v === 'img' || v === 'txt') {
+                    return v
+                }
+            }
+            return ""
+        }
+
+        function stripError(result) {
+            result = result.split(/\r?\n/)
+            let errMsg = "";
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].includes("ailed") || result[i].includes("ERR") || result[i].includes("ould not")) {
+                    errMsg += result[i].replace(/\u001b[^m]*?m/g, "") + "<br>"
+                }
+            }
+            return errMsg
+        }
+
+        function parseResultString(result) {
+            debug(result);
+            let prettyRes = result.split(":")[1];
+            debug(prettyRes);
+            let percent = prettyRes.split('%')[0];
+            debug(percent);
+
+            let tag = prettyRes.split('%')[1];
+            tag = tag.trim();
+            debug(tag);
+            tag = tag.split(" ");
+            for (let i = 0; i < tag.length; i++) {
+                tag[i] = tag[i][0].toUpperCase() + tag[i].substr(1);
+            }
+            tag = tag.join(" ");
+            debug(tag);
+
+            return "Classification: " + tag + "<br> Confidence: " + percent + "%"
+        }
+
+        function setPhotoBg(file) {
+            fileName.innerHTML = file.name;
+            PhotoFile = file;
+            $('#image_drop_area').css({ 'background-image': "url(" + URL.createObjectURL(file) + ")" });
+        }
+
+        function onPhotoSelect() {
+            if (fileInput.files.length > 0) {
+                setPhotoBg(fileInput.files[0]);
+            } else {
+                $('#image_drop_area').css({ 'background-image': 'url("https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png"' });
+                PhotoFile = undefined;
+                fileName.innerHTML = 'Choose a file…';
+            }
+        }
+
+        function setImageClickHandler() {
+            $('#image_drop_area').click(function () { $('#photo-field').trigger('click'); });
+        }
+
+        function onImgFormSubmit() {
+            let endpoint = $("#img-endpoint").val()
+            debug(isPhotoSet());
+            debug(isValidHttpUrl(endpoint));
+            debug(endpoint);
+
+            if (isPhotoSet() && isValidHttpUrl(endpoint)) {
+                $("#submit-photo").attr('disabled', true);
+                photoUpload(PhotoFile, endpoint);
+            }
+        }
+
+        function txtGetRequest() {
+            let endpoint = $("#txt-endpoint").val();
+            $.ajax({
+                url: endpoint,
+                type: 'GET',
+                success: function (data, textStatus, request) {
+                    debug(request.getAllResponseHeaders());
+                    debug(textStatus);
+                    let duration = request.getResponseHeader('x-duration-seconds');
+                    onTxtResponse(data, duration);
+                }
+            });
+        }
+
+        function txtPostRequest() {
+            let endpoint = $("#txt-endpoint").val();
+            let content = $("#text-content").val();
+            $.ajax({
+                url: endpoint,
+                type: 'POST',
+                data: content,
+                success: function (data, textStatus, request) {
+                    debug(request.getAllResponseHeaders());
+                    debug(textStatus);
+                    let duration = request.getResponseHeader('x-duration-seconds');
+		    debug(request.getResponseHeader('x-call-id'));
+		    debug(request.getResponseHeader('x-start-time'));
+		    debug(request.getResponseHeader('x-duration-seconds'));
+		    debug("BLAH");
+		    debug(duration);
+                    onTxtResponse(data, duration);
+                }
+            });
+        }
+
+        function onTxtResponse(data, duration) {
+            debug(data);
+            debug(duration);
+            debug('Duration:')
+            let msg = '<p>Reply:</p><pre class="is-size-6">' + data + "</pre>Duration: " + parseFloat(duration).toFixed(3) + "s";
+            $('#result').html(msg);
+            $("#submit-text").attr('disabled', false);
+            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+        }
+
+        function onTxtFormSubmit() {
+            let endpoint = $("#txt-endpoint").val();
+            if (isValidHttpUrl(endpoint)) {
+                let content = $("#text-content").val();
+                if (content == "") {
+                    txtGetRequest();
+                } else {
+                    txtPostRequest();
+                }
+                debug(content);
+                debug(typeof content);
+                $("#submit-text").attr('disabled', true);
+            }
+        }
+        function onClassification(data, duration) {
+            debug(data);
+            debug(duration);
+            let classification = stripResult(data);
+            if (classification != "") {
+                debug('Striped: ');
+                debug(classification);
+                classification = parseResultString(classification);
+                if (duration) {
+                    let roundedDuration = parseFloat(duration).toFixed(3)
+                    classification = classification + "<br>Duration: " + roundedDuration + "s"
+                }
+                $('#result').html(classification);
+                $("#submit-photo").attr('disabled', false);
+            } else {
+                $('#result').html('<pre class="is-size-6">' + data.replace(/\u001b[^m]*?m/g, "") + "</pre");
+                $("#submit-photo").attr('disabled', false);
+                $("html, body").animate({ scrollTop: $(document).height() }, 2000);
+            }
+        }
+
+        function createSubmitListeners() {
+            let imgButton = document.getElementById("submit-photo");
+            imgButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                onImgFormSubmit();
+            });
+
+            let txtButton = document.getElementById("submit-text");
+            txtButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                onTxtFormSubmit();
+            });
+        }
+
+        function createPhotoSelectListener() {
+            fileInput.addEventListener('change', onPhotoSelect);
+        }
+
+        function createDropListener() {
+            dropArea.addEventListener('dragover', function (event) {
+                event.stopPropagation();
+                event.preventDefault();
+                event.dataTransfer.dropEffect = 'copy';
+            });
+            dropArea.addEventListener('drop', function (event) {
+                event.stopPropagation();
+                event.preventDefault();
+                var imageFile = event.dataTransfer.files[0];
+                if (isValidImgFile(imageFile)) {
+                    setPhotoBg(imageFile);
+                }
+            })
+        }
+
+        function photoUpload(file, endpoint) {
+            $.ajax({
+                url: endpoint,
+                type: 'POST',
+                data: file,
+                processData: false,
+                contentType: "multipart/form-data",  // tell jQuery not to set contentType
+                success: function (data, textStatus, request) {
+                    //debug(request.getAllResponseHeaders());
+                    debug(textStatus);
+                    let duration = request.getResponseHeader('x-duration-seconds');
+		    debug(duration);
+                    onClassification(data, duration);
+                }
+            });
+        }
+
+        function addTabsListener() {
+            document.getElementById("img-tab-label").addEventListener('click', function () {
+                onImgTabClick();
+            })
+
+            document.getElementById("text-tab-label").addEventListener('click', function () {
+                onTxtTabClick();
+            })
+        }
+
+        function onImgTabClick(history) {
+            if (document.title != "FaaS UI | Classification") {
+                document.title = "FaaS UI | Classification";
+            }
+            if (!$("#img-tab-label").hasClass("is-active")) {
+                $("#img-tab-label").addClass("is-active");
+            }
+            $("#img-tab").show();
+            $("#img-tab").css("display", "block");
+
+
+            $("#text-tab-label").removeClass("is-active");
+            $("#text-tab").hide();
+            $("#text-tab").css("display", "none");
+            if (typeof history == "undefined") {
+                var currentURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?v=img';
+                window.history.pushState({ path: currentURL }, '', currentURL);
+            }
+        }
+
+        function onTxtTabClick(history) {
+            if (document.title != "FaaS UI | Text") {
+                document.title = "FaaS UI | Text";
+            }
+            if (!$("#text-tab-label").hasClass("is-active")) {
+                $("#text-tab-label").addClass("is-active");
+            }
+            $("#text-tab").show();
+            $("#text-tab").css("display", "block");
+
+            $("#img-tab-label").removeClass("is-active");
+            $("#img-tab").hide();
+            $("#img-tab").css("display", "none");
+            if (typeof history == "undefined") {
+                var currentURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?v=txt';
+                window.history.pushState({ path: currentURL }, '', currentURL);
+            }
+        }
+
+        function watchStates() {
+            window.addEventListener('popstate', function (event) {
+                if (event.state.path.includes("v=txt")) {
+                    onTxtTabClick(false);
+                }
+                if (event.state.path.includes("v=img")) {
+                    onImgTabClick(false);
+                }
+                // Log the state data to the console
+                console.log(event.state);
+            });
+        }
+
+        function logoNavigation() {
+            document.getElementById("logo").addEventListener("click", function () {
+                var url = window.location.href.split('?')[0];
+                window.location.href = url;
+            })
+        }
+    </script>
+    <script>
+        const DEBUG = true;
+        var PhotoFile;
+        var fileInput;
+        var fileName;
+        var dropArea;
+        $(document).ready(function () {
+            fileInput = document.querySelector('.file-input');
+            fileName = document.querySelector('.file-name');
+            dropArea = document.querySelector("#image_drop_area");
+            let view = parseUrl();
+            if (view === "txt") {
+                onTxtTabClick();
+            }
+            setImageClickHandler();
+            createPhotoSelectListener();
+            createSubmitListeners();
+            createDropListener();
+            addTabsListener();
+            watchStates();
+            logoNavigation();
+        });
+    </script>
+</body>
+
+</html>
